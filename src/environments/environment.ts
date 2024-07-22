@@ -6,8 +6,6 @@ export const environment = {
   production: false,
   type: "token ",
   url: "http://localhost:3000",
-  urlDict: "http://localhost:3000",
-  urlAnalysis: "http://localhost:3002/api",
   // url: 'https://docnews.pro/api',
   auth: "",
   token: "",
