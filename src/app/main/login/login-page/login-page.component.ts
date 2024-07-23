@@ -9,7 +9,7 @@ import { LoginService } from '../services/login.service';
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent  {
   constructor(
     private router: Router,
     private service: LoginService
@@ -19,11 +19,6 @@ export class LoginPageComponent implements OnInit {
   apiURL = environment.url + '/auth/login';
   authenticationType: PoPageLoginAuthenticationType = PoPageLoginAuthenticationType.Bearer;
 
-  ngOnInit(): void {
-    if (sessionStorage.getItem('reloadOk') === 'reload') {
-      this.router.navigateByUrl(`/main/reserv`);
-    }
-  }
 
   login(credenciais: any) {
     this.doLogin(

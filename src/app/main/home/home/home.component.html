@@ -62,7 +62,7 @@
         [p-disabled]="!areAllNamesFilled || lbuttonAnalise" 
         class="upload-button" 
         p-kind="primary" 
-        [p-label]="nameButtonAnalise" 
+        [p-label]="nameButtonDictionary" 
         (p-click)="enviarArquivos()"
       ></po-button>
     </form>
@@ -144,11 +144,11 @@
       <!-- Botão de enviar fontes -->
       <po-button 
         nome="analisarFonte" 
-        p-label="Enviar fonte(s)" 
+        [p-label]="nameButtonSource"
         class="upload-button" 
         (p-click)="analisarFonte()" 
         p-kind="primary" 
-        [p-disabled]="lDisabledButtonFonte || !commitMessage"
+        [p-disabled]="lDisabledButtonSource || !commitMessage"
       ></po-button>
     </form>
   </div>

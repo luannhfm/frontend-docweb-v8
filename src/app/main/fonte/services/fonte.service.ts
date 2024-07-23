@@ -77,7 +77,8 @@ export class FonteService {
     }
 
     public deletePrw(prw: string) {
-        return this.http.delete<any>(`${apiURL}/${prw}`, {});
+        const user : any = sessionStorage.getItem('loginUser');
+        return this.http.delete<any>(`${apiURL}/${prw}/${user}`, {});
     }
 
     public updateCategory(prw: string, category: string) : Observable<any> {

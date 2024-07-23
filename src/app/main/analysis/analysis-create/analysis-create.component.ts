@@ -9,9 +9,10 @@ import { DicionarioService } from "../../dictionary/services/dicionario.service"
 import { CategoryService } from "../../category/services/category.service";
 import { FonteService } from "../../fonte/services/fonte.service";
 import { AnalysisService } from "../service/analysis.service";
-import * as moment from "moment";
 import { Router } from "@angular/router";
 import { FormBuilder, UntypedFormGroup } from "@angular/forms";
+import * as moment from 'moment';
+import 'moment-timezone';
 
 @Component({
   selector: "app-analysis-create",
@@ -118,7 +119,7 @@ export class AnalysisCreateComponent implements OnInit {
     const fontes: any = [];
     const categorys: any = [];
 
-    const id = new Date().toISOString(); //moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss');
+    const id = moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss');
 
     for (const row of selectedRowDic) {
       dictionaryId.push(row["id_analysis"]);
@@ -166,11 +167,11 @@ export class AnalysisCreateComponent implements OnInit {
 
   onSearchSource() {
     if (this.reactiveForm.get("searchSource").value) {
-      this.fontes = this.fontes.filter((item: { fonte: any }) => {
+      this.fontes = this.fontes.filter((item: { name: any }) => {
         const valueSearch = this.reactiveForm
           .get("searchSource")
           .value.toLowerCase();
-        const matchesSearchSource = item.fonte
+        const matchesSearchSource = item.name
           .toLowerCase()
           .includes(valueSearch);
         return matchesSearchSource;

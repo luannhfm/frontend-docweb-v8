@@ -18,7 +18,8 @@ export class HomeComponent implements OnInit {
   @ViewChildren('fileInput') fileInputs!: QueryList<ElementRef>;
   private uploadRefs = new Map<string, PoUploadComponent>();
 
-  nameButtonAnalise = 'Gerar Análise';
+  nameButtonDictionary = 'Gerar Análise';
+  nameButtonSource = "Enviar fonte(s)"
   lbuttonAnalise = true;
   uploads: any[] = [
     { id: 1, name: '', files: [], quantidadeArquivos: '', tamanhoArquivos: '' },
@@ -70,7 +71,7 @@ export class HomeComponent implements OnInit {
   tamArqDic: string = '';
   qntArqDic: string = '';
 
-  lDisabledButtonFonte: boolean = true;
+  lDisabledButtonSource: boolean = true;
 
   customLiterals: PoUploadLiterals = {
     sentWithSuccess: 'Upload concluído com sucesso.',
@@ -105,7 +106,7 @@ export class HomeComponent implements OnInit {
   }
 
   enviarArquivos() {
-    this.nameButtonAnalise = 'Gerando Análise..';
+    this.nameButtonDictionary = 'Gerando Análise..';
     this.lbuttonAnalise = true;
     this.poNotification.success('Dicionários enviados para análise.');
     const id = moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss');
@@ -155,17 +156,17 @@ export class HomeComponent implements OnInit {
         this.dicionarioService.sendDictionary(formData).subscribe({
           next: (response) => {
             console.log('Upload bem-sucedido', response);
-            this.nameButtonAnalise = 'Gerar Análise';
+            this.nameButtonDictionary = 'Gerar Análise';
             this.poNotification.success('Análise finalizada com sucesso.');
           },
           error: (error) => {
             console.error('Erro no upload', error);
-            this.nameButtonAnalise = 'Gerar Análise';
+            this.nameButtonDictionary = 'Gerar Análise';
           },
         });
       } else {
         this.lbuttonAnalise = false;
-        this.nameButtonAnalise = 'Gerar Análise';
+        this.nameButtonDictionary = 'Gerar Análise';
       }
     })();
   }
@@ -222,7 +223,7 @@ export class HomeComponent implements OnInit {
 
     this.tamanhoArquivos = `${(tamanhoTotal / (1024 * 1024)).toFixed(2).toString()} MB`;
     this.quantidadeArquivos = `${quantidade.toString()} arquivos`;
-    this.lDisabledButtonFonte = false;
+    this.lDisabledButtonSource = false;
   }
 
   validFontZIP(event: any) {
@@ -248,7 +249,7 @@ export class HomeComponent implements OnInit {
         });
         this.quantidadeArquivos = `${quantidadeArquivosDesejados.toString()} arquivos`;
         this.tamanhoArquivos = `${(tamanhoArquivo / (1024 * 1024)).toFixed(2).toString()} MB`;
-        this.lDisabledButtonFonte = false;
+        this.lDisabledButtonSource = false;
       });
     };
 
@@ -267,6 +268,8 @@ export class HomeComponent implements OnInit {
       const data: any = {};
       //data.uuid = v4();
       data.files = [];
+      this.lDisabledButtonSource = true;
+      this.nameButtonSource = 'Enviando fontes..'
 
       try {
         const fontesPermitidas = await this.uploadService.getFontesPermitidas();
@@ -287,7 +290,7 @@ export class HomeComponent implements OnInit {
             this.quantidadeArquivos = '';
             this.commitMessage = '';
             this.poNotification.success('Código Fonte enviado com sucesso!');
-            this.lDisabledButtonFonte = true;
+            this.nameButtonSource = 'Enviar fonte(s)..'
           },
           error: (error) => {
             this.isLoadingFonte = true;

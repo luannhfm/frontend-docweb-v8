@@ -42,7 +42,7 @@ export class ReservHomeComponent implements OnInit {
   quantidadeArquivos: string = '';
   commitMessage: string = '';
   selectedFonte: string = '';
-  lDisabledButtonFonte: boolean = true;
+  lDisabledButtonSource: boolean = true;
 
   // Page
     page = 1;
@@ -187,9 +187,6 @@ loadPreviousPage() {
     }
 }
 
-  restartTable() {
-    sessionStorage.setItem('reloadOk'   , 'reload');
-    window.location.reload();  }
 
 getRowClass(rowItem: any): any {
   const classes = {
@@ -296,7 +293,7 @@ getRowClass(rowItem: any): any {
 
     this.tamanhoArquivos = `${(tamanhoTotal / (1024 * 1024)).toFixed(2).toString()} MB`;
     this.quantidadeArquivos = `${quantidade.toString()} arquivos`;
-    this.lDisabledButtonFonte = false;
+    this.lDisabledButtonSource = false;
   }
 
   validFontZIP(event: any): void {
@@ -324,7 +321,7 @@ getRowClass(rowItem: any): any {
 
         this.quantidadeArquivos = `${quantidadeArquivosDesejados.toString()} arquivos`;
         this.tamanhoArquivos = `${(tamanhoArquivo / (1024 * 1024)).toFixed(2).toString()} MB`;
-        this.lDisabledButtonFonte = false;
+        this.lDisabledButtonSource = false;
       });
     };
 
@@ -375,8 +372,7 @@ getRowClass(rowItem: any): any {
             this.commitMessage = '';
             this.poNotification.success('Código Fonte enviado com sucesso!');
             this.closeModal()
-              
-          this.restartTable();
+            this.loadTableData();
       
 
           },
@@ -395,9 +391,9 @@ getRowClass(rowItem: any): any {
     this.service.delete(this.idDelete).subscribe((value) => {
         if (value) {
             this.poNotification.success(`Reserva deletada com sucesso!`);
-            setTimeout(() => {
-               this.restartTable();
-            }, 300);
+            this.loadTableData();
+
+
         } else {
             this.poNotification.error(
                 `Ocorreu um erro ao tentar excluir a reserva`
